@@ -1,13 +1,27 @@
 {
 	"compilerOptions": {
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"lib": [
+			"es6",
+			"dom"
+		],
 		"module": "commonjs",
-		"target": "es5",
+		"noLib": false,
 		"outDir": "out",
-		"noLib": true,
+		"rootDir": ".",
+		"skipLibCheck": true,
 		"sourceMap": true,
-        "rootDir": "."
+		"target": "es6",
+		"types": [
+			"node",
+			"vscode"
+		]
 	},
 	"exclude": [
 		"node_modules"
+	],
+	"include": [
+		"src/**/*.ts",
 	]
 }

@@ -1,53 +1,58 @@
 'use strict';
 
 import * as vscode from 'vscode';
-import Window = vscode.window;
-import Range = vscode.Range;
-import Selection = vscode.Selection;
-import TextDocument = vscode.TextDocument;
-import TextEditor = vscode.TextEditor;
 
 export function activate(context: vscode.ExtensionContext) {
 
-	console.log('vscode-base64" is now active');
+    console.log('vscode-base64 is now active');
 
-	let encode = vscode.commands.registerCommand('extension.base64Encode', () => {    
-        let e = Window.activeTextEditor;
-		let d = e.document;
-		let sel = e.selections;
-        base64Encode(e, d, sel);
-	});
-    
-    let decode = vscode.commands.registerCommand('extension.base64Decode', () => {    
-        let e = Window.activeTextEditor;
-		let d = e.document;
-		let sel = e.selections;
-        base64Decode(e, d, sel);
-	});
+    const commands = [
+        { id: 'extension.base64Encode', handler: base64Encode },
+        { id: 'extension.base64Decode', handler: base64Decode }
+    ];
 
-	context.subscriptions.push(encode);
-	context.subscriptions.push(decode);
+    context.subscriptions.push(
+        ...commands.map(cmd =>
+            vscode.commands.registerCommand(cmd.id, () => {
+                const editor = vscode.window.activeTextEditor;
+                if (!editor) {
+                    vscode.window.showErrorMessage('No active text editor');
+                    return;
+                }
+                cmd.handler(editor);
+            })
+        )
+    );
 }
 
-function base64Encode(e: TextEditor, d: TextDocument, sel: Selection[]) {
-	e.edit(function(edit) {
-		sel.forEach(function(s) {
-			let txt: string = d.getText(new Range(s.start, s.end));
-            let b: Buffer = new Buffer(txt);
-			edit.replace(s, b.toString('base64'));
-		});
-	});
+async function base64Encode(editor: vscode.TextEditor): Promise<void> {
+
+    try {
+        await editor.edit(builder => {
+            editor.selections.forEach(selection => {
+                const text = editor.document.getText(selection);
+                const encoded = Buffer.from(text).toString('base64');
+                builder.replace(selection, encoded);
+            });
+        });
+    } catch (error) {
+        vscode.window.showErrorMessage(`Failed to encode: ${error.message}`);
+    }
 }
 
-function base64Decode(e: TextEditor, d: TextDocument, sel: Selection[]) {
-	e.edit(function(edit) {
-		sel.forEach(function(s) {
-			let txt: string = d.getText(new Range(s.start, s.end));
-            let b: Buffer = new Buffer(txt, 'base64');
-			edit.replace(s, b.toString());
-		});
-	});
+async function base64Decode(editor: vscode.TextEditor): Promise<void> {
+
+    try {
+        await editor.edit(builder => {
+            editor.selections.forEach(selection => {
+                const text = editor.document.getText(selection);
+                const decoded = Buffer.from(text, 'base64').toString();
+                builder.replace(selection, decoded);
+            });
+        });
+    } catch (error) {
+        vscode.window.showErrorMessage(`Failed to decode: ${error.message}`);
+    }
 }
 
-export function deactivate() {
-}
+export function deactivate() { }

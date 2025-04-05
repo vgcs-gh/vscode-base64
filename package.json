@@ -1,65 +1,71 @@
 {
-	"name": "vscode-base64",
-	"displayName": "vscode-base64",
-	"description": "Base64 encode/decode the current selections.",
-	"version": "0.1.0",
-	"publisher": "adamhartford",
-	"author": "Adam Hartford",
-	"license": "MIT",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/adamhartford/vscode-base64.git"
-	},
-	"icon": "icon.png",
-	"engines": {
-		"vscode": "^0.10.6"
-	},
-	"categories": [
-		"Other"
-	],
-	"activationEvents": [
-		"onCommand:extension.base64Encode",
-		"onCommand:extension.base64Decode"
-	],
-	"main": "./out/src/extension",
-	"contributes": {
-		"commands": [
-			{
-				"command": "extension.base64Encode",
-				"title": "Base64 Encode"
-			},
-			{
-				"command": "extension.base64Decode",
-				"title": "Base64 Decode"
-			}
-		],
-		"keybindings": [
-			{
-				"command": "extension.base64Encode",
-				"key": "ctrl+e ctrl+e",
-				"mac": "cmd+e cmd+e",
-				"when": "editorTextFocus"
-			},
-			{
-				"command": "extension.base64Decode",
-				"key": "ctrl+e ctrl+d",
-				"mac": "cmd+e cmd+d",
-				"when": "editorTextFocus"
-			}
-		]
-	},
-	"scripts": {
-		"vscode:prepublish": "node ./node_modules/vscode/bin/compile",
-		"compile": "node ./node_modules/vscode/bin/compile -watch -p ./",
-		"postinstall": "node ./node_modules/vscode/bin/install"
-	},
-	"devDependencies": {
-		"typescript": "^1.7.5",
-		"vscode": "^0.11.0",
-		"cryptiles": ">=4.1.2",
-		"debug": ">=2.6.9",
-		"growl": ">=1.10.0",
-		"hoek": ">=4.2.1",
-		"tar": ">=2.0.0"
-	}
+  "author": "Adam Hartford, Vittorio Giorgio Candolo",
+  "categories": [
+    "Other"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "extension.base64Encode",
+        "title": "Base64 Encode"
+      },
+      {
+        "command": "extension.base64Decode",
+        "title": "Base64 Decode"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "extension.base64Encode",
+        "key": "ctrl+e ctrl+e",
+        "mac": "cmd+e cmd+e",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "extension.base64Decode",
+        "key": "ctrl+e ctrl+d",
+        "mac": "cmd+e cmd+d",
+        "when": "editorTextFocus"
+      }
+    ]
+  },
+  "dependencies": {
+    "audit": "^0.0.6",
+    "fix": "^0.0.3"
+  },
+  "description": "Base64 encode/decode the current selections.",
+  "devDependencies": {
+    "@hapi/hoek": "^11.0.0",
+    "@types/node": "^22.00.00",
+    "@types/vscode": "^1.0.0",
+    "@vscode/vsce": "^3.3.2",
+    "cryptiles": "^4.0.0",
+    "debug": "^4.0.0",
+    "growl": "^1.0.0",
+    "tar": "^6.0.0",
+    "typescript": "^4.0.0"
+  },
+  "displayName": "vscode-base64",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "icon": "icon.png",
+  "keywords": [
+    "base64",
+    "encode",
+    "decode"
+  ],
+  "license": "MIT",
+  "main": "./out/src/extension",
+  "name": "vscode-base64",
+  "publisher": "vgcs",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vgcs-gh/vscode-base64.git"
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "package": "vsce package -o ./out/vscode-base64.vsix"
+  },
+  "version": "0.2.0"
 }
